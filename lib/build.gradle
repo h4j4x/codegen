@@ -1,0 +1,7 @@
+plugins {
+    id 'com.ajax.codegen.java-library-conventions'
+}
+
+dependencies {
+    implementation 'org.freemarker:freemarker:2.3.31'
+}

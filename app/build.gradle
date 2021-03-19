@@ -1,0 +1,11 @@
+plugins {
+    id 'com.ajax.codegen.java-application-conventions'
+}
+
+dependencies {
+    implementation project(':lib')
+}
+
+application {
+    mainClass = 'com.ajax.codegen.app.App'
+}
