@@ -1,9 +1,12 @@
 package com.ajax.codegen.app;
 
+import com.ajax.codegen.app.model.DataInput;
+import com.ajax.codegen.lib.error.TemplateError;
 import com.ajax.codegen.lib.json.JsonParser;
 import com.ajax.codegen.lib.template.FreemarkerHandler;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
@@ -24,6 +27,10 @@ public class App {
 
     @Option(name="-o", usage="Output folder", required = true)
     private File outFolder;
+
+    @Option(name="--verbose", usage="Verbose mode")
+    @SuppressWarnings("FieldMayBeFinal")
+    private boolean verbose = false;
 
     public static void main(String[] args) {
         new App().doMain(args);
@@ -71,12 +78,12 @@ public class App {
             .listFiles(pathname -> pathname.isFile() && pathname.getName().endsWith(".json"));
         if (jsonFiles != null) {
             for (File jsonFile : jsonFiles) {
-                logInfo(String.format("  Processing %s...", jsonFile.getName()));
+                logInfo(String.format(" - Processing %s...", jsonFile.getName()));
                 try {
                     DataInput dataInput = JsonParser.parseFile(jsonFile, DataInput.class);
                     generateFiles(templateHandler, dataInput);
                 } catch (IOException e) {
-                    logError(String.format("  Error reading %s: %s", jsonFile.getName(), e.getMessage()));
+                    logError(String.format(" - Error reading %s: %s", jsonFile.getName(), e.getMessage()));
                 }
             }
         } else {
@@ -85,18 +92,41 @@ public class App {
     }
 
     private void generateFiles(FreemarkerHandler templateHandler, DataInput dataInput) {
-        // todo
+        dataInput.getTemplatesFilesMap().forEach((template, fileName) -> {
+            File file = new File(outFolder, fileName);
+            if (file.exists()) {
+                //noinspection ResultOfMethodCallIgnored
+                file.delete();
+            }
+            try {
+                //noinspection ResultOfMethodCallIgnored
+                file.createNewFile();
+                String content = templateHandler.render(template, dataInput.getData());
+                FileWriter writer = new FileWriter(file);
+                writer.write(content);
+                writer.close();
+                logInfo(String.format(" -- %s successfully created!", file.getName()));
+            } catch (IOException | TemplateError e) {
+                logError(" -- Error: " + e.getMessage());
+            }
+        });
     }
 
     private void logInfo(String message) {
-        log.log(Level.INFO, message);
+        if (verbose) {
+            log.log(Level.INFO, message);
+        }
     }
 
     private void logWarning(String message) {
-        log.log(Level.WARNING, message);
+        if (verbose) {
+            log.log(Level.WARNING, message);
+        }
     }
 
     private void logError(String message) {
-        log.log(Level.SEVERE, message);
+        if (verbose) {
+            log.log(Level.SEVERE, message);
+        }
     }
 }

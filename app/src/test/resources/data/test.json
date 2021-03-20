@@ -1,0 +1,13 @@
+{
+    "templatesFilesMap": {
+        "class-jpa": "Test.java",
+        "liquibase-changelog": "test.xml"
+    },
+    "data": {
+        "project": "Test",
+        "author": "Ajax",
+        "packageName": "com.ajax.text",
+        "tableName": "tests",
+        "className": "Test"
+    }
+}
