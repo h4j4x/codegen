@@ -1,2 +1,3 @@
 rootProject.name = 'codegen'
+
 include('app', 'lib')

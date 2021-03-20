@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     implementation project(':lib')
+    implementation 'args4j:args4j:2.33'
 }
 
 application {
