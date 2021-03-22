@@ -2,6 +2,7 @@ plugins {
     id 'java'
 }
 
+group = 'com.ajax.codegen'
 sourceCompatibility = '14'
 
 repositories {
