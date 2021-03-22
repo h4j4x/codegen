@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.kohsuke.args4j.CmdLineException;
@@ -90,7 +91,8 @@ public class CliApp {
                 logInfo(String.format(" - Processing %s...", jsonFile.getName()));
                 try {
                     DataInput dataInput = JsonParser.parseFile(jsonFile, DataInput.class);
-                    generateFiles(templateHandler, dataInput);
+                    int filesCount = generateFiles(templateHandler, dataInput);
+                    logInfo(String.format(" - %d files created for %s.", filesCount, jsonFile.getName()));
                 } catch (IOException e) {
                     logError(String.format(" - Error reading %s: %s", jsonFile.getName(), e.getMessage()));
                 }
@@ -100,7 +102,11 @@ public class CliApp {
         }
     }
 
-    private void generateFiles(FreemarkerHandler templateHandler, DataInput dataInput) {
+    private int generateFiles(FreemarkerHandler templateHandler, DataInput dataInput) {
+        if (dataInput == null) {
+            return 0;
+        }
+        AtomicInteger count = new AtomicInteger(0);
         dataInput.getTemplatesFilesMap().forEach((template, fileName) -> {
             File file = new File(outFolder, fileName);
             logInfo(String.format("   - Creating %s...", file.getName()));
@@ -119,11 +125,13 @@ public class CliApp {
                 FileWriter writer = new FileWriter(file);
                 writer.write(content);
                 writer.close();
+                count.addAndGet(1);
                 logInfo(String.format("   - %s successfully created!", file.getName()));
             } catch (IOException | TemplateError e) {
                 logError("   - Error: " + e.getMessage());
             }
         });
+        return count.get();
     }
 
     private void logInfo(String message) {
