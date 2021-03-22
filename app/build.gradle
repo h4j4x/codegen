@@ -17,7 +17,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'io.github.codegen.app.CliApp'
+    mainClass = 'io.github.ajax.codegen.app.CliApp'
 }
 
 distributions {
