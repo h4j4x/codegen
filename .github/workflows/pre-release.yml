@@ -23,7 +23,7 @@ jobs:
       uses: actions/create-release@v1
       id: pre_release
       env:
-        GITHUB_TOKEN: ${GITHUB_TOKEN}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         draft: true
         prerelease: false
@@ -35,7 +35,7 @@ jobs:
     - name: Upload zip distribution file
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${GITHUB_TOKEN}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.pre_release.outputs.upload_url }}
         asset_path: ./app/build/distributions/codegen-cli-${GITHUB_REF}.zip
