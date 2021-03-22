@@ -1,10 +1,11 @@
 {
     "templates": [{
         "template": "class-jpa",
-        "file": "Test.java"
+        "file": "java/Test.java"
     }, {
-        "template": "liquibase-changelog",
-        "file": "test.xml"
+        "template": "liquibase-changeset",
+        "mergeInTemplate": "liquibase-changelog",
+        "mergeInFile": "xml/liquibase.xml"
     }],
     "data": {
         "project": "Test",

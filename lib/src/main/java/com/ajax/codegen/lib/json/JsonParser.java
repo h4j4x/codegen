@@ -1,10 +1,10 @@
 package com.ajax.codegen.lib.json;
 
+import com.ajax.codegen.lib.util.FileUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 public class JsonParser {
     public static <T> T parseString(String json, Class<T> toClass) throws JsonProcessingException {
@@ -13,7 +13,7 @@ public class JsonParser {
     }
 
     public static <T> T parseFile(File jsonFile, Class<T> toClass) throws IOException {
-        String json = Files.readString(jsonFile.toPath());
+        String json = FileUtils.readString(jsonFile);
         return parseString(json, toClass);
     }
 }

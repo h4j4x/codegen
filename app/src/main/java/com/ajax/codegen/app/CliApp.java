@@ -1,16 +1,21 @@
 package com.ajax.codegen.app;
 
 import com.ajax.codegen.app.model.DataInput;
+import com.ajax.codegen.app.model.MergeData;
+import com.ajax.codegen.app.model.MergeObject;
 import com.ajax.codegen.app.model.TemplateObject;
 import com.ajax.codegen.lib.error.TemplateError;
 import com.ajax.codegen.lib.json.JsonParser;
 import com.ajax.codegen.lib.template.FreemarkerHandler;
+import com.ajax.codegen.lib.util.FileUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.kohsuke.args4j.CmdLineException;
@@ -37,6 +42,10 @@ public class CliApp {
     @Option(name="--overwrite", usage="Overwrite mode")
     @SuppressWarnings("FieldMayBeFinal")
     private boolean overwrite = false;
+
+    @Option(name="--read-recursive", usage="Deep data folder read mode")
+    @SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
+    private boolean readRecursive = false;
 
     public static void main(String[] args) {
         new CliApp().doMain(args);
@@ -85,61 +94,111 @@ public class CliApp {
         FreemarkerHandler templateHandler = new FreemarkerHandler(templatesFolder);
 
         logInfo(String.format("Reading data from %s...", dataFolder.getName()));
-        File[] jsonFiles = dataFolder
-            .listFiles(pathname -> pathname.isFile() && pathname.getName().endsWith(".json"));
-        if (jsonFiles != null) {
+        List<File> jsonFiles = FileUtils.readFiles(
+            dataFolder, file -> file.isFile() && file.getName().endsWith(".json"), readRecursive);
+        if (jsonFiles.size() > 0) {
+            Map<String, MergeData> merges = new HashMap<>();
             for (File jsonFile : jsonFiles) {
                 logInfo(String.format(" - Processing %s...", jsonFile.getName()));
                 try {
                     DataInput dataInput = JsonParser.parseFile(jsonFile, DataInput.class);
-                    int filesCount = generateFiles(templateHandler, dataInput);
-                    logInfo(String.format(" - %d files created for %s.", filesCount, jsonFile.getName()));
+                    generateFiles(templateHandler, dataInput, merges);
                 } catch (IOException e) {
                     logError(String.format(" - Error reading %s: %s", jsonFile.getName(), e.getMessage()));
                 }
             }
+            merges.values().forEach(mergeData -> {
+                if (mergeData.isValid()) {
+                    logInfo(String.format(" - Processing merge %s...", mergeData.getFile()));
+                    try {
+                        generateMerge(templateHandler, mergeData);
+                    } catch (IOException | TemplateError e) {
+                        logError(String.format(" - Error processing merge %s: %s", mergeData.getFile(), e.getMessage()));
+                    }
+                }
+            });
         } else {
             logWarning(String.format("Nothing to process at %s!", dataFolder.getName()));
         }
     }
 
-    private int generateFiles(FreemarkerHandler templateHandler, DataInput dataInput) {
-        if (dataInput.getData() == null) {
-            return 0;
+    private void generateFiles(FreemarkerHandler templateHandler, DataInput dataInput, Map<String, MergeData> merges) {
+        Object data = dataInput.getData();
+        if (data != null) {
+            dataInput.getTemplates().forEach(templateObj -> {
+                if (templateObj.hasFile()) {
+                    generateFile(templateHandler, templateObj, data);
+                } else if (templateObj.hasMerge()) {
+                    String template = templateObj.getMergeInTemplate();
+                    String file = templateObj.getMergeInFile();
+                    String mergeKey = String.format("%s-%s", template, file);
+                    MergeData mergeData = merges.getOrDefault(mergeKey, new MergeData(template, file));
+                    mergeData.addObject(new MergeObject(templateObj.getTemplate(), data));
+                    merges.put(mergeKey, mergeData);
+                }
+            });
         }
-        AtomicInteger count = new AtomicInteger(0);
-        dataInput.getTemplates().forEach((templateObject) -> {
-            if (generateFile(templateHandler, templateObject, dataInput.getData())) {
-                count.addAndGet(1);
-            }
-        });
-        return count.get();
     }
 
-    private boolean generateFile(FreemarkerHandler templateHandler, TemplateObject templateObject, Object data) {
-        File file = new File(outFolder, templateObject.getFile());
-        logInfo(String.format("   - Creating %s...", file.getName()));
+    private void generateFile(FreemarkerHandler templateHandler, TemplateObject templateObject, Object data) {
+        try {
+            String file = templateObject.getFile();
+            logInfo(String.format("   - Creating %s...", file));
+            if (createFile(file, templateHandler, templateObject.getTemplate(), data)) {
+                logInfo(String.format("   - %s successfully created!", file));
+            } else {
+                logInfo(String.format("   - %s already exists. Skipped.", file));
+            }
+        } catch (IOException | TemplateError e) {
+            logError("   - Error: " + e.getMessage());
+        }
+    }
+
+    private void generateMerge(FreemarkerHandler templateHandler, MergeData mergeData) throws IOException, TemplateError {
+        String file = mergeData.getFile();
+        logInfo(String.format("   - Creating merge %s...", file));
+        Map<String, String> data = new HashMap<>();
+        data.put("content", mergeContent(templateHandler, mergeData.getObjects()));
+        if (createFile(file, templateHandler, mergeData.getTemplate(), data)) {
+            logInfo(String.format("   - %s successfully created!", file));
+        } else {
+            logInfo(String.format("   - %s already exists. Skipped.", file));
+        }
+    }
+
+    private boolean createFile(String path, FreemarkerHandler templateHandler, String template, Object data) throws IOException, TemplateError {
+        File file = FileUtils.getFile(outFolder, path);
         if (file.exists()) {
             if (!overwrite) {
-                logInfo(String.format("   - %s already exists. Skipped.", file.getName()));
                 return false;
             }
             //noinspection ResultOfMethodCallIgnored
             file.delete();
         }
-        try {
+        File parentFile = file.getParentFile();
+        if (parentFile != null) {
             //noinspection ResultOfMethodCallIgnored
-            file.createNewFile();
-            String content = templateHandler.render(templateObject.getTemplate(), data);
-            FileWriter writer = new FileWriter(file);
-            writer.write(content);
-            writer.close();
-            logInfo(String.format("   - %s successfully created!", file.getName()));
-            return true;
-        } catch (IOException | TemplateError e) {
-            logError("   - Error: " + e.getMessage());
+            parentFile.mkdirs();
         }
-        return false;
+        //noinspection ResultOfMethodCallIgnored
+        file.createNewFile();
+        String content = templateHandler.render(template, data);
+        FileWriter writer = new FileWriter(file);
+        writer.write(content);
+        writer.close();
+        return true;
+    }
+
+    private String mergeContent(FreemarkerHandler templateHandler, List<MergeObject> mergeObjects) throws IOException, TemplateError {
+        StringBuilder content = new StringBuilder();
+        for (MergeObject mergeObject : mergeObjects) {
+            if (content.length() > 0) {
+                content.append("\n");
+            }
+            String templateContent = templateHandler.render(mergeObject.getTemplate(), mergeObject.getData());
+            content.append(templateContent);
+        }
+        return content.toString();
     }
 
     private void logInfo(String message) {
