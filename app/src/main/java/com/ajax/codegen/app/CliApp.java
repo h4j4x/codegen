@@ -16,8 +16,8 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.Messages;
 
-public class App {
-    private static final Logger log = Logger.getLogger(App.class.getName());
+public class CliApp {
+    private static final Logger log = Logger.getLogger(CliApp.class.getName());
 
     @Option(name="-d", usage="Data folder", required = true)
     private File dataFolder;
@@ -32,8 +32,12 @@ public class App {
     @SuppressWarnings("FieldMayBeFinal")
     private boolean verbose = false;
 
+    @Option(name="--overwrite", usage="Overwrite mode")
+    @SuppressWarnings("FieldMayBeFinal")
+    private boolean overwrite = false;
+
     public static void main(String[] args) {
-        new App().doMain(args);
+        new CliApp().doMain(args);
     }
 
     private void doMain(String[] args) {
@@ -65,11 +69,16 @@ public class App {
             parser.printUsage(outStream);
             logError(String.format("Usage:\n%s", outStream.toString(StandardCharsets.UTF_8)));
         } catch (IOException e) {
-            log.log(Level.SEVERE, e.getMessage());
+            logError(e.getMessage());
         }
     }
 
     private void generateFiles() throws IOException {
+        if (overwrite) {
+            logInfo("Overwrite mode is ON (Existing files will be replaced).");
+        } else {
+            logInfo("Overwrite mode is OFF (Existing files will be skipped).");
+        }
         logInfo(String.format("Reading templates from %s...", templatesFolder.getName()));
         FreemarkerHandler templateHandler = new FreemarkerHandler(templatesFolder);
 
@@ -94,7 +103,12 @@ public class App {
     private void generateFiles(FreemarkerHandler templateHandler, DataInput dataInput) {
         dataInput.getTemplatesFilesMap().forEach((template, fileName) -> {
             File file = new File(outFolder, fileName);
+            logInfo(String.format("   - Creating %s...", file.getName()));
             if (file.exists()) {
+                if (!overwrite) {
+                    logInfo(String.format("   - %s already exists. Skipped.", file.getName()));
+                    return;
+                }
                 //noinspection ResultOfMethodCallIgnored
                 file.delete();
             }
@@ -105,9 +119,9 @@ public class App {
                 FileWriter writer = new FileWriter(file);
                 writer.write(content);
                 writer.close();
-                logInfo(String.format(" -- %s successfully created!", file.getName()));
+                logInfo(String.format("   - %s successfully created!", file.getName()));
             } catch (IOException | TemplateError e) {
-                logError(" -- Error: " + e.getMessage());
+                logError("   - Error: " + e.getMessage());
             }
         });
     }

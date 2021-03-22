@@ -2,11 +2,13 @@ plugins {
     id 'com.ajax.codegen.java-application-conventions'
 }
 
+version = '0.0.1'
+
 dependencies {
     implementation project(':lib')
     implementation 'args4j:args4j:2.33'
 }
 
 application {
-    mainClass = 'com.ajax.codegen.app.App'
+    mainClass = 'com.ajax.codegen.app.CliApp'
 }

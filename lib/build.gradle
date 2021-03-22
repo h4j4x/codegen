@@ -2,6 +2,8 @@ plugins {
     id 'com.ajax.codegen.java-library-conventions'
 }
 
+version = '0.0.1'
+
 dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.2'
     implementation 'org.freemarker:freemarker:2.3.31'

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-public class AppTests {
+public class CliAppTests {
     @TempDir
     Path temp;
 
@@ -25,7 +25,7 @@ public class AppTests {
             "-t", getResourceFilePath("templates").getAbsolutePath(),
             "-o", output.getAbsolutePath(),
         };
-        App.main(args);
+        CliApp.main(args);
         File[] files = output.listFiles();
         Assertions.assertNotNull(files);
         Assertions.assertTrue(files.length > 0);
