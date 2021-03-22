@@ -1,4 +1,0 @@
-plugins {
-    id 'com.ajax.codegen.java-common-conventions'
-    id 'java-library'
-}

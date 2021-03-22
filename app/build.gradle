@@ -1,5 +1,5 @@
 plugins {
-    id 'com.ajax.codegen.java-application-conventions'
+    id 'io.github.ajax.codegen.java-application-conventions'
     id 'maven-publish'
     id 'signing'
 }
@@ -17,7 +17,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'com.ajax.codegen.app.CliApp'
+    mainClass = 'io.github.codegen.app.CliApp'
 }
 
 distributions {
