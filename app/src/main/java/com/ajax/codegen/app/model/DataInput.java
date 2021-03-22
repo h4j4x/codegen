@@ -1,21 +1,21 @@
 package com.ajax.codegen.app.model;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 public class DataInput {
-    private Map<String, String> templatesFilesMap;
+    private List<TemplateObject> templates;
     private Object data;
 
-    public Map<String, String> getTemplatesFilesMap() {
-        if (templatesFilesMap == null) {
-            templatesFilesMap = new HashMap<>();
+    public List<TemplateObject> getTemplates() {
+        if (templates == null) {
+            templates = new LinkedList<>();
         }
-        return templatesFilesMap;
+        return templates;
     }
 
-    public void setTemplatesFilesMap(Map<String, String> templatesFilesMap) {
-        this.templatesFilesMap = templatesFilesMap;
+    public void setTemplates(List<TemplateObject> templates) {
+        this.templates = templates;
     }
 
     public Object getData() {

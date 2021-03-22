@@ -1,13 +1,13 @@
 package com.ajax.codegen.app;
 
 import com.ajax.codegen.app.model.DataInput;
+import com.ajax.codegen.app.model.TemplateObject;
 import com.ajax.codegen.lib.json.JsonParser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.Collection;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -31,9 +31,8 @@ public class CliAppTests {
         Assertions.assertTrue(files.length > 0);
 
         DataInput testData = JsonParser.parseFile(new File(dataDir, "test.json"), DataInput.class);
-        Collection<String> fileNames = testData.getTemplatesFilesMap().values();
-        for (String fileName : fileNames) {
-            File file = new File(output, fileName);
+        for (TemplateObject templateObject : testData.getTemplates()) {
+            File file = new File(output, templateObject.getFile());
             Assertions.assertTrue(file.exists());
             Assertions.assertTrue(file.isFile());
             Assertions.assertTrue(file.length() > 0);

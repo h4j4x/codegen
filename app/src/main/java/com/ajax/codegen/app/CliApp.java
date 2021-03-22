@@ -1,6 +1,7 @@
 package com.ajax.codegen.app;
 
 import com.ajax.codegen.app.model.DataInput;
+import com.ajax.codegen.app.model.TemplateObject;
 import com.ajax.codegen.lib.error.TemplateError;
 import com.ajax.codegen.lib.json.JsonParser;
 import com.ajax.codegen.lib.template.FreemarkerHandler;
@@ -103,35 +104,42 @@ public class CliApp {
     }
 
     private int generateFiles(FreemarkerHandler templateHandler, DataInput dataInput) {
-        if (dataInput == null) {
+        if (dataInput.getData() == null) {
             return 0;
         }
         AtomicInteger count = new AtomicInteger(0);
-        dataInput.getTemplatesFilesMap().forEach((template, fileName) -> {
-            File file = new File(outFolder, fileName);
-            logInfo(String.format("   - Creating %s...", file.getName()));
-            if (file.exists()) {
-                if (!overwrite) {
-                    logInfo(String.format("   - %s already exists. Skipped.", file.getName()));
-                    return;
-                }
-                //noinspection ResultOfMethodCallIgnored
-                file.delete();
-            }
-            try {
-                //noinspection ResultOfMethodCallIgnored
-                file.createNewFile();
-                String content = templateHandler.render(template, dataInput.getData());
-                FileWriter writer = new FileWriter(file);
-                writer.write(content);
-                writer.close();
+        dataInput.getTemplates().forEach((templateObject) -> {
+            if (generateFile(templateHandler, templateObject, dataInput.getData())) {
                 count.addAndGet(1);
-                logInfo(String.format("   - %s successfully created!", file.getName()));
-            } catch (IOException | TemplateError e) {
-                logError("   - Error: " + e.getMessage());
             }
         });
         return count.get();
+    }
+
+    private boolean generateFile(FreemarkerHandler templateHandler, TemplateObject templateObject, Object data) {
+        File file = new File(outFolder, templateObject.getFile());
+        logInfo(String.format("   - Creating %s...", file.getName()));
+        if (file.exists()) {
+            if (!overwrite) {
+                logInfo(String.format("   - %s already exists. Skipped.", file.getName()));
+                return false;
+            }
+            //noinspection ResultOfMethodCallIgnored
+            file.delete();
+        }
+        try {
+            //noinspection ResultOfMethodCallIgnored
+            file.createNewFile();
+            String content = templateHandler.render(templateObject.getTemplate(), data);
+            FileWriter writer = new FileWriter(file);
+            writer.write(content);
+            writer.close();
+            logInfo(String.format("   - %s successfully created!", file.getName()));
+            return true;
+        } catch (IOException | TemplateError e) {
+            logError("   - Error: " + e.getMessage());
+        }
+        return false;
     }
 
     private void logInfo(String message) {
