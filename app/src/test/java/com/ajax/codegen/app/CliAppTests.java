@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,8 @@ public class CliAppTests {
             Assertions.assertTrue(file.exists());
             Assertions.assertTrue(file.isFile());
             Assertions.assertTrue(file.length() > 0);
+            String content = Files.readString(file.toPath());
+            Assertions.assertTrue(content.contains("\"tests\""));
         }
     }
 
