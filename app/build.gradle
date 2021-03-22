@@ -12,3 +12,9 @@ dependencies {
 application {
     mainClass = 'com.ajax.codegen.app.CliApp'
 }
+
+distributions {
+    main {
+        distributionBaseName = 'codegen-cli'
+    }
+}

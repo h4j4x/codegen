@@ -74,7 +74,7 @@ public class CliApp {
                 throw new CmdLineException(parser, Messages.ILLEGAL_PATH, "Output folder is not a folder.");
             }
             generateFiles();
-        } catch( CmdLineException e ) {
+        } catch(CmdLineException e) {
             logError(e.getMessage());
             ByteArrayOutputStream outStream = new ByteArrayOutputStream();
             parser.printUsage(outStream);
