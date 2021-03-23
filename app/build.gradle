@@ -1,5 +1,5 @@
 plugins {
-    id 'io.github.ajax.codegen.java-application-conventions'
+    id 'io.github.h4j4x.codegen.java-application-conventions'
     id 'maven-publish'
     id 'signing'
 }
@@ -17,7 +17,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'io.github.ajax.codegen.app.CliApp'
+    mainClass = 'io.github.h4j4x.codegen.app.CliApp'
 }
 
 distributions {
@@ -34,24 +34,24 @@ publishing {
             pom {
                 name = 'Codegen'
                 description = 'Generate code'
-                url = 'https://github.com/miche-atucha/codegen'
+                url = 'https://github.com/h4j4x/codegen'
                 licenses {
                     license {
                         name = 'MIT License'
-                        url = 'https://raw.githubusercontent.com/miche-atucha/codegen/main/LICENSE'
+                        url = 'https://raw.githubusercontent.com/h4j4x/codegen/main/LICENSE'
                     }
                 }
                 developers {
                     developer {
-                        id = 'miche-atucha'
+                        id = 'h4j4x'
                         name = 'Michel Atucha'
                         email = 'miche.atucha@gmail.com'
                     }
                 }
                 scm {
-                    connection = 'scm:git:git://github.com/miche-atucha/codegen.git'
-                    developerConnection = 'scm:git:ssh://github.com/miche-atucha/codegen.git'
-                    url = 'https://github.com/miche-atucha/codegen'
+                    connection = 'scm:git:git://github.com/h4j4x/codegen.git'
+                    developerConnection = 'scm:git:ssh://github.com/h4j4x/codegen.git'
+                    url = 'https://github.com/h4j4x/codegen'
                 }
             }
         }

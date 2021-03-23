@@ -9,8 +9,8 @@
     }],
     "data": {
         "project": "Test",
-        "author": "Ajax",
-        "packageName": "com.ajax.text",
+        "author": "h4j4x",
+        "packageName": "com.h4j4x.test",
         "tableName": "tests",
         "className": "Test"
     }

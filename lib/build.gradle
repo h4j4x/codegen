@@ -1,5 +1,5 @@
 plugins {
-    id 'io.github.ajax.codegen.java-library-conventions'
+    id 'io.github.h4j4x.codegen.java-library-conventions'
 }
 
 version = '0.0.2'

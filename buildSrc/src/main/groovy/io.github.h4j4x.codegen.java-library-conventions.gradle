@@ -1,0 +1,4 @@
+plugins {
+    id 'io.github.h4j4x.codegen.java-common-conventions'
+    id 'java-library'
+}
