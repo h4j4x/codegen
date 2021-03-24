@@ -1,9 +1,9 @@
 package io.github.h4j4x.codegen.lib;
 
+import io.github.h4j4x.codegen.common.parser.JsonParser;
+import io.github.h4j4x.codegen.common.util.FileUtils;
 import io.github.h4j4x.codegen.lib.model.DataInput;
 import io.github.h4j4x.codegen.lib.model.TemplateObject;
-import io.github.h4j4x.codegen.lib.parser.JsonParser;
-import io.github.h4j4x.codegen.lib.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;

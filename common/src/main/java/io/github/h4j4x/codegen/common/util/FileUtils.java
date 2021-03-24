@@ -1,4 +1,4 @@
-package io.github.h4j4x.codegen.lib.util;
+package io.github.h4j4x.codegen.common.util;
 
 import java.io.File;
 import java.io.FileFilter;

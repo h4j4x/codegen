@@ -1,4 +1,4 @@
-package io.github.h4j4x.codegen.lib.parser;
+package io.github.h4j4x.codegen.common.parser;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.Map;

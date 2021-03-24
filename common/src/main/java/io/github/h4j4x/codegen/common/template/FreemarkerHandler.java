@@ -1,10 +1,10 @@
-package io.github.h4j4x.codegen.lib.template;
+package io.github.h4j4x.codegen.common.template;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import io.github.h4j4x.codegen.lib.error.TemplateError;
+import io.github.h4j4x.codegen.common.error.TemplateError;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
