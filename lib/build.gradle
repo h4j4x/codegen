@@ -2,7 +2,7 @@ plugins {
     id 'io.github.h4j4x.codegen.java-library-conventions'
 }
 
-version = '0.0.2'
+version = '0.0.3'
 
 dependencies {
     implementation project(':common')
