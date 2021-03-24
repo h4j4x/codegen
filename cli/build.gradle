@@ -20,16 +20,9 @@ application {
     mainClass = 'io.github.h4j4x.codegen.app.CliApp'
 }
 
-distributions {
-    main {
-        distributionBaseName = 'codegen-cli'
-    }
-}
-
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId = 'codegen-cli'
             from components.java
             pom {
                 name = 'Codegen'

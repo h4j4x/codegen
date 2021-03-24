@@ -1,4 +1,4 @@
-package io.github.h4j4x.codegen.app;
+package io.github.h4j4x.codegen.cli;
 
 import io.github.h4j4x.codegen.lib.CodeGen;
 import io.github.h4j4x.codegen.lib.CodeGenCallback;
