@@ -1,8 +1,8 @@
-package io.github.h4j4x.codegen.app;
+package io.github.h4j4x.codegen.lib;
 
-import io.github.h4j4x.codegen.app.model.DataInput;
-import io.github.h4j4x.codegen.app.model.TemplateObject;
-import io.github.h4j4x.codegen.lib.json.JsonParser;
+import io.github.h4j4x.codegen.lib.model.DataInput;
+import io.github.h4j4x.codegen.lib.model.TemplateObject;
+import io.github.h4j4x.codegen.lib.parser.JsonParser;
 import io.github.h4j4x.codegen.lib.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
@@ -16,24 +16,21 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-public class CliAppTests {
+public class CodeGenTests {
     @TempDir
     Path temp;
 
     @Test
     public void testGeneration() throws URISyntaxException, IOException {
+        File dataFolder = getResourceFilePath("data");
+        File templatesFolder = getResourceFilePath("templates");
         File output = temp.toFile();
-        File dataDir = getResourceFilePath("data");
-        String[] args = {
-            "-d", dataDir.getAbsolutePath(),
-            "-t", getResourceFilePath("templates").getAbsolutePath(),
-            "-o", output.getAbsolutePath(),
-        };
-        CliApp.main(args);
+        CodeGen codeGen = new CodeGen(dataFolder, templatesFolder, output, false, false);
+        codeGen.generateCode(new SilentCodeGenCallback());
         List<File> files = FileUtils.readFiles(output, File::isFile, true);
         Assertions.assertFalse(files.isEmpty());
 
-        DataInput testData = JsonParser.parseFile(new File(dataDir, "test.json"), DataInput.class);
+        DataInput testData = JsonParser.parseFile(new File(dataFolder, "test.json"), DataInput.class);
         List<String> merges = new LinkedList<>();
         for (TemplateObject templateObject : testData.getTemplates()) {
             if (templateObject.hasFile()) {
@@ -62,5 +59,16 @@ public class CliAppTests {
     private File getResourceFilePath(String folder) throws URISyntaxException {
         URL dirUrl = getClass().getResource("/" + folder);
         return new File(dirUrl.toURI());
+    }
+
+    private static class SilentCodeGenCallback implements CodeGenCallback {
+        @Override
+        public void logInfo(String message) {}
+
+        @Override
+        public void logWarning(String message) {}
+
+        @Override
+        public void logError(String message) {}
     }
 }

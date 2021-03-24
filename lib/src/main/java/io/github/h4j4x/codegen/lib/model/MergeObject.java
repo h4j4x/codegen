@@ -1,4 +1,4 @@
-package io.github.h4j4x.codegen.app.model;
+package io.github.h4j4x.codegen.lib.model;
 
 public class MergeObject {
     private final String template;

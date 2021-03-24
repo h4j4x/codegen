@@ -1,4 +1,4 @@
-package io.github.h4j4x.codegen.lib.json;
+package io.github.h4j4x.codegen.lib.parser;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
