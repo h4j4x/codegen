@@ -1,0 +1,16 @@
+{
+    "templates": [{
+        "template": "enum",
+        "file": "java/Test.java"
+    }],
+    "csvData": {
+        "csvKey": "items",
+        "dataKey": "data",
+        "fields": ["key", "value"],
+        "filePath": "test.csv",
+        "data": {
+            "packageName": "com.h4j4x.test",
+            "enumName": "Test"
+        }
+    }
+}

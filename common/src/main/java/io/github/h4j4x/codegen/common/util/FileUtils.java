@@ -9,7 +9,7 @@ import java.util.List;
 
 public class FileUtils {
     public static File getFile(File parent, String path) {
-        if (parent != null && path != null) {
+        if (path != null) {
             String[] parts = path.trim()
                 .replaceAll("\\\\", "/")
                 .split("/");

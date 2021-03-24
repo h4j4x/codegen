@@ -72,16 +72,19 @@ public class CodeGen {
 
     private void generateFiles(FreemarkerHandler templateHandler, DataInput dataInput,
                                Map<String, MergeData> merges, CodeGenCallback callback) {
-        Object data = dataInput.getData();
-        if (data != null) {
+        if (dataInput.getData() != null || dataInput.getCsvData() != null) {
             dataInput.getTemplates().forEach(templateObj -> {
                 if (templateObj.hasFile()) {
-                    generateFile(templateHandler, templateObj, data, callback);
+                    generateFile(templateHandler, templateObj, dataInput, callback);
                 } else if (templateObj.hasMerge()) {
                     String template = templateObj.getMergeInTemplate();
                     String file = templateObj.getMergeInFile();
                     String mergeKey = String.format("%s-%s", template, file);
                     MergeData mergeData = merges.getOrDefault(mergeKey, new MergeData(template, file));
+                    Object data = dataInput.getData();
+                    if (data == null) {
+                        data = dataInput.getCsvData();
+                    }
                     mergeData.addObject(new MergeObject(templateObj.getTemplate(), data));
                     merges.put(mergeKey, mergeData);
                 }
@@ -90,11 +93,11 @@ public class CodeGen {
     }
 
     private void generateFile(FreemarkerHandler templateHandler, TemplateObject templateObject,
-                              Object data, CodeGenCallback callback) {
+                              DataInput dataInput, CodeGenCallback callback) {
         try {
             String file = templateObject.getFile();
             callback.logInfo(String.format("   - Creating %s...", file));
-            if (createFile(file, templateHandler, templateObject.getTemplate(), data)) {
+            if (createFile(file, templateHandler, templateObject.getTemplate(), dataInput)) {
                 callback.logInfo(String.format("   - %s successfully created!", file));
             } else {
                 callback.logInfo(String.format("   - %s already exists. Skipped.", file));
@@ -115,6 +118,14 @@ public class CodeGen {
         } else {
             callback.logInfo(String.format("   - %s already exists. Skipped.", file));
         }
+    }
+
+    private boolean createFile(String path, FreemarkerHandler templateHandler,
+                               String template, DataInput dataInput) throws IOException, TemplateError {
+        if (dataInput.getData() != null) {
+            return createFile(path, templateHandler, template, dataInput.getData());
+        }
+        return createFile(path, templateHandler, template, dataInput.getCsvDataObject(dataFolder));
     }
 
     private boolean createFile(String path, FreemarkerHandler templateHandler, String template, Object data) throws IOException, TemplateError {

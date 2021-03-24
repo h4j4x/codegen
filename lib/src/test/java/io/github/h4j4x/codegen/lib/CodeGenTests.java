@@ -56,6 +56,30 @@ public class CodeGenTests {
         }
     }
 
+    @Test
+    public void testGenerationCsv() throws URISyntaxException, IOException {
+        File dataFolder = getResourceFilePath("dataCsv");
+        File templatesFolder = getResourceFilePath("templatesCsv");
+        File output = temp.toFile();
+        CodeGen codeGen = new CodeGen(dataFolder, templatesFolder, output, false, false);
+        codeGen.generateCode(new SilentCodeGenCallback());
+        List<File> files = FileUtils.readFiles(output, File::isFile, true);
+        Assertions.assertFalse(files.isEmpty());
+
+        DataInput testData = JsonParser.parseFile(new File(dataFolder, "test.json"), DataInput.class);
+        for (TemplateObject templateObject : testData.getTemplates()) {
+            if (templateObject.hasFile()) {
+                File file = FileUtils.getFile(output, templateObject.getFile());
+                Assertions.assertTrue(file.exists());
+                Assertions.assertTrue(file.isFile());
+                Assertions.assertTrue(file.length() > 0);
+                String content = FileUtils.readString(file);
+                Assertions.assertTrue(content.contains("public enum Test"));
+                Assertions.assertTrue(content.contains("key1(\"value1\")"));
+            }
+        }
+    }
+
     private File getResourceFilePath(String folder) throws URISyntaxException {
         URL dirUrl = getClass().getResource("/" + folder);
         return new File(dirUrl.toURI());

@@ -11,3 +11,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Group individual templates in merged files.
 
 ## [Unreleased]
+### Added
+- CSV data input.
