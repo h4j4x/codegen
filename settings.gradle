@@ -1,3 +1,3 @@
 rootProject.name = 'codegen'
 
-include('common', 'lib', 'cli')
+include('lib', 'cli')

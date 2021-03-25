@@ -38,7 +38,11 @@ public class CliApp implements CodeGenCallback {
     private boolean readRecursive = false;
 
     public static void main(String[] args) {
-        new CliApp().doMain(args);
+        new CliApp(args);
+    }
+
+    public CliApp(String[] args) {
+        doMain(args);
     }
 
     private void doMain(String[] args) {

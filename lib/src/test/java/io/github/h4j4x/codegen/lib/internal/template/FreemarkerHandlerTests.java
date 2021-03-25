@@ -1,6 +1,6 @@
-package io.github.h4j4x.codegen.common.template;
+package io.github.h4j4x.codegen.lib.internal.template;
 
-import io.github.h4j4x.codegen.common.error.TemplateError;
+import io.github.h4j4x.codegen.lib.internal.error.TemplateError;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;

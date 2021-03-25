@@ -1,7 +1,7 @@
 package io.github.h4j4x.codegen.lib;
 
-import io.github.h4j4x.codegen.common.parser.JsonParser;
-import io.github.h4j4x.codegen.common.util.FileUtils;
+import io.github.h4j4x.codegen.lib.internal.parser.JsonParser;
+import io.github.h4j4x.codegen.lib.internal.util.FileUtils;
 import io.github.h4j4x.codegen.lib.model.DataInput;
 import io.github.h4j4x.codegen.lib.model.TemplateObject;
 import java.io.File;

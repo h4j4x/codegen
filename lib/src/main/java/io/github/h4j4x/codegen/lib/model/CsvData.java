@@ -1,8 +1,8 @@
 package io.github.h4j4x.codegen.lib.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.github.h4j4x.codegen.common.parser.CsvParser;
-import io.github.h4j4x.codegen.common.util.FileUtils;
+import io.github.h4j4x.codegen.lib.internal.parser.CsvParser;
+import io.github.h4j4x.codegen.lib.internal.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;

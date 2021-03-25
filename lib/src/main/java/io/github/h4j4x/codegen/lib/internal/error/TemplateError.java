@@ -1,4 +1,4 @@
-package io.github.h4j4x.codegen.common.error;
+package io.github.h4j4x.codegen.lib.internal.error;
 
 public class TemplateError extends Exception {
     public TemplateError(String message) {

@@ -1,6 +1,6 @@
-package io.github.h4j4x.codegen.common.parser;
+package io.github.h4j4x.codegen.lib.internal.parser;
 
-import io.github.h4j4x.codegen.common.util.FileUtils;
+import io.github.h4j4x.codegen.lib.internal.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;

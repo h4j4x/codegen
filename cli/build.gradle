@@ -1,15 +1,9 @@
 plugins {
     id 'io.github.h4j4x.codegen.java-application-conventions'
-    id 'maven-publish'
-    id 'signing'
+    id 'io.github.h4j4x.codegen.java-publish-conventions'
 }
 
 version = '0.0.3'
-
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
 
 dependencies {
     implementation project(':lib')
@@ -17,47 +11,5 @@ dependencies {
 }
 
 application {
-    mainClass = 'io.github.h4j4x.codegen.app.CliApp'
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            pom {
-                name = 'Codegen'
-                description = 'Generate code'
-                url = 'https://github.com/h4j4x/codegen'
-                licenses {
-                    license {
-                        name = 'MIT License'
-                        url = 'https://raw.githubusercontent.com/h4j4x/codegen/main/LICENSE'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'h4j4x'
-                        name = 'Michel Atucha'
-                        email = 'miche.atucha@gmail.com'
-                    }
-                }
-                scm {
-                    connection = 'scm:git:git://github.com/h4j4x/codegen.git'
-                    developerConnection = 'scm:git:ssh://github.com/h4j4x/codegen.git'
-                    url = 'https://github.com/h4j4x/codegen'
-                }
-            }
-        }
-    }
-}
-
-signing {
-    sign publishing.publications.mavenJava
-}
-
-
-javadoc {
-    if (JavaVersion.current().isJava9Compatible()) {
-        options.addBooleanOption('html5', true)
-    }
+    mainClass = 'io.github.h4j4x.codegen.cli.CliApp'
 }

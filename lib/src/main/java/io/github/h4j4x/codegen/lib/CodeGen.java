@@ -1,9 +1,9 @@
 package io.github.h4j4x.codegen.lib;
 
-import io.github.h4j4x.codegen.common.error.TemplateError;
-import io.github.h4j4x.codegen.common.parser.JsonParser;
-import io.github.h4j4x.codegen.common.template.FreemarkerHandler;
-import io.github.h4j4x.codegen.common.util.FileUtils;
+import io.github.h4j4x.codegen.lib.internal.error.TemplateError;
+import io.github.h4j4x.codegen.lib.internal.parser.JsonParser;
+import io.github.h4j4x.codegen.lib.internal.template.FreemarkerHandler;
+import io.github.h4j4x.codegen.lib.internal.util.FileUtils;
 import io.github.h4j4x.codegen.lib.model.DataInput;
 import io.github.h4j4x.codegen.lib.model.MergeData;
 import io.github.h4j4x.codegen.lib.model.MergeObject;
