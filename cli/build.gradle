@@ -3,7 +3,7 @@ plugins {
     id 'io.github.h4j4x.codegen.java-publish-conventions'
 }
 
-version = '0.0.5'
+version = '0.0.6'
 
 dependencies {
     implementation project(':lib')
