@@ -22,4 +22,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixed
 - Pre-release github action.
 
+## [0.0.5] - 2021-03-27
+### Fixed
+- Pre-release github action.
+
 ## [Unreleased]
