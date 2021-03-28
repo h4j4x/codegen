@@ -3,7 +3,7 @@ plugins {
     id 'io.github.h4j4x.codegen.java-publish-conventions'
 }
 
-version = '0.0.3'
+version = '0.0.4'
 
 dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.2'

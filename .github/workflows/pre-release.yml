@@ -33,13 +33,13 @@ jobs:
         tag_name: "v${{ steps.version.outputs.version }}"
         body_path: CHANGELOG.md
     - name: Create distributions files
-      run: ./gradlew :app:assembleDist
+      run: ./gradlew :cli:assembleDist
     - name: Upload zip distribution file
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.pre_release.outputs.upload_url }}
-        asset_path: "./app/build/distributions/codegen-cli-${{ steps.version.outputs.version }}.zip"
+        asset_path: "./cli/build/distributions/codegen-cli-${{ steps.version.outputs.version }}.zip"
         asset_name: "codegen-cli-${{ steps.version.outputs.version }}.zip"
         asset_content_type: application/zip
