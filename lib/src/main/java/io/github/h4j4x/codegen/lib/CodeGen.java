@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * CodeGen service.
+ */
 public class CodeGen {
     private final File dataFolder;
     private final File templatesFolder;
@@ -23,6 +26,15 @@ public class CodeGen {
     private final boolean overwrite;
     private final boolean readRecursive;
 
+    /**
+     * Create CodeGen service.
+     * @param dataFolder the folder to read JSON data files.
+     * @param templatesFolder the folder to read templates referenced from data files.
+     * @param outFolder the folder to output result files.
+     * @param overwrite if existing files can be overwritten.
+     * @param readRecursive if data folder will be read deeply.
+     * @throws IOException if an I/O error occurs.
+     */
     public CodeGen(File dataFolder, File templatesFolder, File outFolder,
                    boolean overwrite, boolean readRecursive) throws IOException {
         this.dataFolder = dataFolder;
@@ -33,6 +45,10 @@ public class CodeGen {
         this.readRecursive = readRecursive;
     }
 
+    /**
+     * Generate output files.
+     * @param callback the callback for events.
+     */
     public void generateCode(CodeGenCallback callback) {
         if (overwrite) {
             callback.logInfo("Overwrite mode is ON (Existing files will be replaced).");

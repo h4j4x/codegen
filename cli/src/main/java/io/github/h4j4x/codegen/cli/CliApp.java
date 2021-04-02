@@ -13,6 +13,10 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.Messages;
 
+/**
+ * CodeGen cli app.
+ * @author h4j4x
+ */
 public class CliApp implements CodeGenCallback {
     private static final Logger log = Logger.getLogger(CliApp.class.getName());
 
@@ -37,10 +41,18 @@ public class CliApp implements CodeGenCallback {
     @SuppressWarnings({"FieldMayBeFinal", "FieldCanBeLocal"})
     private boolean readRecursive = false;
 
+    /**
+     * Start cli app.
+     * @param args app arguments.
+     */
     public static void main(String[] args) {
         new CliApp(args);
     }
 
+    /**
+     * Start cli app.
+     * @param args app arguments.
+     */
     public CliApp(String[] args) {
         doMain(args);
     }

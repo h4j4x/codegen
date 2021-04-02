@@ -11,9 +11,17 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Freemarker templates handler.
+ */
 public class FreemarkerHandler {
     private final Configuration config;
 
+    /**
+     * Create template handler.
+     * @param templatesDir the folder to read templates from.
+     * @throws IOException if an I/O error occurs.
+     */
     public FreemarkerHandler(File templatesDir) throws IOException {
         config = new Configuration(Configuration.VERSION_2_3_31);
         config.setDirectoryForTemplateLoading(templatesDir);
@@ -24,6 +32,14 @@ public class FreemarkerHandler {
         config.setFallbackOnNullLoopVariable(false);
     }
 
+    /**
+     * Render a template.
+     * @param template the template name.
+     * @param data the data input.
+     * @return the rendered result as string.
+     * @throws IOException if an I/O error occurs.
+     * @throws TemplateError if a template processing error occurs.
+     */
     public String render(String template, Object data) throws IOException, TemplateError {
         Template temp = config.getTemplate(fixTemplateName(template));
         Writer out = new StringWriter();

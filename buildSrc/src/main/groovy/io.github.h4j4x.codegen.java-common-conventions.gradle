@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'io.github.h4j4x.codegen'
-sourceCompatibility = '14'
+sourceCompatibility = '15'
 
 repositories {
     jcenter()
