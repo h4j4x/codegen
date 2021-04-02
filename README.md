@@ -2,6 +2,7 @@
 ![Gradle build](https://github.com/h4j4x/codegen/actions/workflows/gradle.yml/badge.svg)
 ![Pre release](https://github.com/h4j4x/codegen/actions/workflows/pre-release.yml/badge.svg)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.h4j4x.codegen/cli?label=Maven%20Central)](https://search.maven.org/search?q=g:io.github.h4j4x.codegen)
+[![javadoc](https://javadoc.io/badge2/io.github.h4j4x.codegen/lib/Lib%20javadoc.svg)](https://javadoc.io/doc/io.github.h4j4x.codegen/lib) 
 
 Generate code from [Freemarker](https://freemarker.apache.org/docs/dgui_quickstart.html) templates and [JSON](https://www.json.org/json-en.html) data with [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) support.
 
@@ -103,4 +104,4 @@ Templates folder for generation. Templates must be specified in FTL files ***(.f
 ### `-o`
 Output folder for generation. Must be writable.
 ## License
-[MIT](https://raw.githubusercontent.com/h4j4x/codegen/main/LICENSE)
+[![License](https://img.shields.io/github/license/h4j4x/codegen)](https://raw.githubusercontent.com/h4j4x/codegen/main/LICENSE)
