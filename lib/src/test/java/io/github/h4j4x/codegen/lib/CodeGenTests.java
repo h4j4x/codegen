@@ -101,7 +101,6 @@ public class CodeGenTests {
                 String content = FileUtils.readString(file);
                 Assertions.assertTrue(content.contains("Line number"));
                 String[] lines = Arrays.stream(content.split("\n"))
-                    .filter(line -> !line.isBlank())
                     .toArray(String[]::new);
                 String[] ordered = Arrays.stream(content.split("\n"))
                     .filter(line -> !line.isBlank())

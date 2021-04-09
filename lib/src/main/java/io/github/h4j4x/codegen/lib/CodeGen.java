@@ -172,11 +172,15 @@ public class CodeGen {
 
     private String mergeContent(FreemarkerHandler templateHandler, List<MergeObject> mergeObjects) throws IOException, TemplateError {
         StringBuilder content = new StringBuilder();
+        String lineFeed = "\n";
         for (MergeObject mergeObject : mergeObjects) {
             if (content.length() > 0) {
-                content.append("\n");
+                content.append(lineFeed);
             }
             String templateContent = templateHandler.render(mergeObject.getTemplate(), mergeObject.getData());
+            if (templateContent.endsWith(lineFeed)) {
+                templateContent = templateContent.substring(0, templateContent.length() - lineFeed.length());
+            }
             content.append(templateContent);
         }
         return content.toString();
