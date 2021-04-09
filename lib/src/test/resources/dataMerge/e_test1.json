@@ -1,0 +1,11 @@
+{
+    "templates": [{
+        "template": "line",
+        "mergeOrder": 1,
+        "mergeInTemplate": "paragraph",
+        "mergeInFile": "paragraph.txt"
+    }],
+    "data": {
+        "line": "Line number 1"
+    }
+}

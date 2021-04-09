@@ -11,6 +11,7 @@ import io.github.h4j4x.codegen.lib.model.TemplateObject;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,7 +102,7 @@ public class CodeGen {
                     if (data == null) {
                         data = dataInput.getCsvData();
                     }
-                    mergeData.addObject(new MergeObject(templateObj.getTemplate(), data));
+                    mergeData.addObject(new MergeObject(templateObj.getTemplate(), data, templateObj.getMergeOrder()));
                     merges.put(mergeKey, mergeData);
                 }
             });
@@ -127,8 +128,10 @@ public class CodeGen {
                                CodeGenCallback callback) throws IOException, TemplateError {
         String file = mergeData.getFile();
         callback.logInfo(String.format("   - Creating merge %s...", file));
+        List<MergeObject> objects = mergeData.getObjects();
+        objects.sort(Comparator.comparing(MergeObject::getOrder));
         Map<String, String> data = new HashMap<>();
-        data.put("content", mergeContent(templateHandler, mergeData.getObjects()));
+        data.put("content", mergeContent(templateHandler, objects));
         if (createFile(file, templateHandler, mergeData.getTemplate(), data)) {
             callback.logInfo(String.format("   - %s successfully created!", file));
         } else {

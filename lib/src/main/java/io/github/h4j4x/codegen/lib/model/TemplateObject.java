@@ -8,6 +8,7 @@ public class TemplateObject {
     private String file;
     private String mergeInTemplate;
     private String mergeInFile;
+    private Integer mergeOrder;
 
     /**
      * Get template name.
@@ -71,6 +72,25 @@ public class TemplateObject {
      */
     public void setMergeInFile(String mergeInFile) {
         this.mergeInFile = mergeInFile;
+    }
+
+    /**
+     * Get content order for merge content. Lower order values renders first.
+     * @return content order. Defaults to {@literal Integer.MAX_VALUE}
+     */
+    public Integer getMergeOrder() {
+        if (mergeOrder == null) {
+            mergeOrder =  Integer.MAX_VALUE;
+        }
+        return mergeOrder;
+    }
+
+    /**
+     * Set content order for merge content. Lower order values renders first.
+     * @param mergeOrder content order. Defaults to {@literal Integer.MAX_VALUE}
+     */
+    public void setMergeOrder(Integer mergeOrder) {
+        this.mergeOrder = mergeOrder;
     }
 
     /**

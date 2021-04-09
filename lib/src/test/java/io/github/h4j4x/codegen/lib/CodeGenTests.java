@@ -10,6 +10,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
@@ -80,9 +81,43 @@ public class CodeGenTests {
         }
     }
 
+    @Test
+    public void testGenerationMergeOrder() throws URISyntaxException, IOException {
+        File dataFolder = getResourceFilePath("dataMerge");
+        File templatesFolder = getResourceFilePath("templatesMerge");
+        File output = temp.toFile();
+        CodeGen codeGen = new CodeGen(dataFolder, templatesFolder, output, false, false);
+        codeGen.generateCode(new SilentCodeGenCallback());
+        List<File> files = FileUtils.readFiles(output, File::isFile, true);
+        Assertions.assertFalse(files.isEmpty());
+
+        DataInput testData = JsonParser.parseFile(new File(dataFolder, "a_testX.json"), DataInput.class);
+        for (TemplateObject templateObject : testData.getTemplates()) {
+            if (templateObject.hasMerge()) {
+                File file = FileUtils.getFile(output, templateObject.getMergeInFile());
+                Assertions.assertTrue(file.exists());
+                Assertions.assertTrue(file.isFile());
+                Assertions.assertTrue(file.length() > 0);
+                String content = FileUtils.readString(file);
+                Assertions.assertTrue(content.contains("Line number"));
+                String[] lines = Arrays.stream(content.split("\n"))
+                    .filter(line -> !line.isBlank())
+                    .toArray(String[]::new);
+                String[] ordered = Arrays.stream(content.split("\n"))
+                    .filter(line -> !line.isBlank())
+                    .sorted()
+                    .toArray(String[]::new);
+                Assertions.assertArrayEquals(ordered, lines);
+            }
+        }
+    }
+
     private File getResourceFilePath(String folder) throws URISyntaxException {
         URL dirUrl = getClass().getResource("/" + folder);
-        return new File(dirUrl.toURI());
+        if (dirUrl != null) {
+            return new File(dirUrl.toURI());
+        }
+        return null;
     }
 
     private static class SilentCodeGenCallback implements CodeGenCallback {
