@@ -3,8 +3,6 @@ plugins {
     id 'io.github.h4j4x.codegen.java-publish-conventions'
 }
 
-version = '0.0.6'
-
 dependencies {
     implementation project(':lib')
     implementation 'args4j:args4j:2.33'

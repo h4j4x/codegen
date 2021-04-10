@@ -2,7 +2,9 @@ plugins {
     id 'java'
 }
 
+version = '0.1.0'
 group = 'io.github.h4j4x.codegen'
+
 sourceCompatibility = '15'
 
 repositories {
