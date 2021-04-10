@@ -2,7 +2,8 @@
 ![Gradle build](https://github.com/h4j4x/codegen/actions/workflows/gradle.yml/badge.svg)
 ![Pre release](https://github.com/h4j4x/codegen/actions/workflows/pre-release.yml/badge.svg)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.h4j4x.codegen/cli?label=Maven%20Central)](https://search.maven.org/search?q=g:io.github.h4j4x.codegen)
-[![javadoc](https://javadoc.io/badge2/io.github.h4j4x.codegen/lib/Lib%20javadoc.svg)](https://javadoc.io/doc/io.github.h4j4x.codegen/lib) 
+[![javadoc](https://javadoc.io/badge2/io.github.h4j4x.codegen/lib/Lib%20javadoc.svg)](https://javadoc.io/doc/io.github.h4j4x.codegen/lib)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/7e7ed58d5ed846d0aa15e415da4443cc)](https://www.codacy.com/gh/h4j4x/codegen/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=h4j4x/codegen&amp;utm_campaign=Badge_Grade)
 
 Generate code from [Freemarker](https://freemarker.apache.org/docs/dgui_quickstart.html) templates and [JSON](https://www.json.org/json-en.html) data with [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) support.
 
