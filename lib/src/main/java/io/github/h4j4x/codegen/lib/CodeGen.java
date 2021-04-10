@@ -1,9 +1,9 @@
 package io.github.h4j4x.codegen.lib;
 
 import io.github.h4j4x.codegen.lib.internal.error.TemplateError;
-import io.github.h4j4x.codegen.lib.internal.parser.JsonParser;
 import io.github.h4j4x.codegen.lib.internal.template.FreemarkerHandler;
 import io.github.h4j4x.codegen.lib.internal.util.FileUtils;
+import io.github.h4j4x.codegen.lib.internal.util.JsonUtils;
 import io.github.h4j4x.codegen.lib.model.DataInput;
 import io.github.h4j4x.codegen.lib.model.MergeData;
 import io.github.h4j4x.codegen.lib.model.MergeObject;
@@ -66,7 +66,7 @@ public class CodeGen {
             for (File jsonFile : jsonFiles) {
                 callback.logInfo(String.format(" - Processing %s...", jsonFile.getName()));
                 try {
-                    DataInput dataInput = JsonParser.parseFile(jsonFile, DataInput.class);
+                    DataInput dataInput = JsonUtils.parseFile(jsonFile, DataInput.class);
                     generateFiles(templateHandler, dataInput, merges, callback);
                 } catch (IOException e) {
                     callback.logError(String.format(" - Error reading %s: %s", jsonFile.getName(), e.getMessage()));

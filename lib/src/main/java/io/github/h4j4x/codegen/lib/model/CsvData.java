@@ -1,7 +1,7 @@
 package io.github.h4j4x.codegen.lib.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.github.h4j4x.codegen.lib.internal.parser.CsvParser;
+import io.github.h4j4x.codegen.lib.internal.util.CsvUtils;
 import io.github.h4j4x.codegen.lib.internal.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
@@ -121,7 +121,7 @@ public class CsvData {
             }
             if (file.exists() && file.canRead()) {
                 List<Map<String, String>> list = new LinkedList<>();
-                List<List<String>> rawCsv = CsvParser.parseFile(file);
+                List<List<String>> rawCsv = CsvUtils.parseFile(file);
                 for (List<String> raw : rawCsv) {
                     Map<String, String> data = new HashMap<>();
                     for (int i = 0; i < fields.size(); i++) {

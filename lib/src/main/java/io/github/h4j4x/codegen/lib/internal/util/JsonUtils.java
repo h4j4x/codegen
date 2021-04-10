@@ -1,15 +1,14 @@
-package io.github.h4j4x.codegen.lib.internal.parser;
+package io.github.h4j4x.codegen.lib.internal.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.h4j4x.codegen.lib.internal.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
 
 /**
- * JSON format parser.
+ * JSON utils.
  */
-public class JsonParser {
+public class JsonUtils {
     /**
      * Parse a json file input.
      * @param <T> the target type.

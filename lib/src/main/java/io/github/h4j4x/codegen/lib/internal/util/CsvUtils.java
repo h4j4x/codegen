@@ -1,6 +1,5 @@
-package io.github.h4j4x.codegen.lib.internal.parser;
+package io.github.h4j4x.codegen.lib.internal.util;
 
-import io.github.h4j4x.codegen.lib.internal.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -8,9 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Csv format parser.
+ * Csv utils.
  */
-public class CsvParser {
+public class CsvUtils {
     private static final String DELIMITER = ",";
     private static final String WRAPPER = "\"";
 

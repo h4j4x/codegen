@@ -7,7 +7,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class FreemarkerHandlerTests {
@@ -24,6 +24,6 @@ public class FreemarkerHandlerTests {
         String result = handler.render("template1", data)
             .replaceAll("\r", "")
             .replaceAll("\n", "");
-        Assertions.assertEquals(expected, result);
+        assertEquals(expected, result);
     }
 }
