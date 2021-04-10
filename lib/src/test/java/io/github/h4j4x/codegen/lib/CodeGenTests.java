@@ -120,25 +120,19 @@ public class CodeGenTests {
     }
 
     private static class SilentCodeGenCallback implements CodeGenCallback {
-        /**
-         * Just testing, so nothing to do.
-         * @param message the event message.
-         */
         @Override
-        public void logInfo(String message) {}
+        public void logInfo(String message) {
+            // Just testing, so nothing to do.
+        }
 
-        /**
-         * Just testing, so nothing to do.
-         * @param message the event message.
-         */
         @Override
-        public void logWarning(String message) {}
+        public void logWarning(String message) {
+            // Just testing, so nothing to do.
+        }
 
-        /**
-         * Just testing, so nothing to do.
-         * @param message the event message.
-         */
         @Override
-        public void logError(String message) {}
+        public void logError(String message) {
+            // Just testing, so nothing to do.
+        }
     }
 }
